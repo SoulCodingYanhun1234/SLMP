@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f6cbd" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Fluent Music</title>
+    <style>
+      html, body, #root { width: 100%; height: 100%; margin: 0; }
+      body { background: #edf3fa; font-family: "Segoe UI Variable", "Segoe UI", "Microsoft YaHei UI", sans-serif; }
+      .boot-screen { width: 100%; height: 100%; display: grid; place-items: center; color: #17324f; background: radial-gradient(circle at 75% 15%, rgba(87,163,236,.28), transparent 35%), #edf3fa; }
+      .boot-card { width: min(360px, calc(100% - 48px)); padding: 28px; border-radius: 24px; text-align: center; border: 1px solid rgba(34,74,112,.12); background: rgba(255,255,255,.68); box-shadow: 0 20px 55px rgba(31,56,89,.12); backdrop-filter: blur(18px); }
+      .boot-logo { width: 54px; height: 54px; margin: 0 auto 16px; display: grid; place-items: center; border-radius: 18px; color: white; font-size: 28px; background: linear-gradient(145deg,#31a0f0,#0f5fa8); }
+      .boot-card strong { display:block; font-size: 19px; }
+      .boot-card span { display:block; margin-top: 8px; opacity:.68; font-size:13px; }
+      .boot-line { height: 3px; margin-top: 20px; overflow:hidden; border-radius:999px; background:rgba(15,108,189,.12); }
+      .boot-line::after { content:""; display:block; width:45%; height:100%; border-radius:inherit; background:#0f6cbd; animation:boot 1.15s ease-in-out infinite alternate; }
+      @keyframes boot { from{ transform:translateX(-15%)} to{transform:translateX(145%)} }
+      @media (prefers-color-scheme: dark) { body { background:#0c1118; } .boot-screen{ color:#f4f7fb; background:radial-gradient(circle at 75% 15%,rgba(44,116,199,.28),transparent 35%),#0c1118;} .boot-card{background:rgba(22,29,39,.74);border-color:rgba(255,255,255,.08);} }
+      @media (prefers-reduced-motion: reduce) { .boot-line::after { animation:none; width:100%; opacity:.55; } }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="boot-screen">
+        <div class="boot-card">
+          <div class="boot-logo">♪</div>
+          <strong>Fluent Music 正在启动</strong>
+          <span id="boot-status">正在初始化播放器界面…</span>
+          <div class="boot-line"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.addEventListener("error", function (event) {
+        var target = document.getElementById("boot-status");
+        if (target) target.textContent = "启动异常：" + (event.message || "请重新打开应用");
+      });
+      window.addEventListener("unhandledrejection", function (event) {
+        var target = document.getElementById("boot-status");
+        if (target) target.textContent = "启动异常：" + String(event.reason || "请重新打开应用");
+      });
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
